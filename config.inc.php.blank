@@ -2,9 +2,29 @@
 
 /* Config your Tumblr user account information here. */
 
-$tumblr_user = array(
+$tumblrss->tumblr = array(
   "user" => "user",
-  "pass" => "pass"
+  "pass" => "pass",
+  //"group" => "group ID
+);
+
+$tumblrss->sites = array(
+  'Google Shared' => array(
+    'url' => 'http://news.google.com/?output=rss',
+    'tags' => 'google, starred',
+    'type' => 'atom',
+    'filters' => array(
+      'ffffound.com' => array(
+        'type' => 'photo',
+        'photo' => 'p(0),a(0),img[src](0)',
+        'link' => 'p(1),a[href](0)',
+      ),
+      'yayeveryday.com' => array(
+        'type' => 'photo',
+        'photo' => 'img[src](0)',
+      )
+    )
+  )
 );
 
 ?>  

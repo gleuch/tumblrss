@@ -1,33 +1,11 @@
 <?php
 
+$tumblrss = new Tumblrss();
+
 /* Tumblr user information */
 include_once('./config.inc.php');
 
-
-$tumblrss = new Tumblrss();
-$tumblrss->tumblr = $tumblr_user;
-
-$tumblrss->sites = array(
-  'Google Shared' => array(
-    'url' => 'http://news.google.com/?output=rss',
-    'tags' => 'google, starred',
-    'type' => 'atom',
-    'filters' => array(
-      'ffffound.com' => array(
-        'type' => 'photo',
-        'photo' => 'p(0),a(0),img[src](0)',
-        'link' => 'p(1),a[href](0)',
-      ),
-      'yayeveryday.com' => array(
-        'type' => 'photo',
-        'photo' => 'img[src](0)',
-      )
-    )
-  )
-);
-
 $tumblrss->Run();
-
 
 class Tumblrss {
   var $sites;
