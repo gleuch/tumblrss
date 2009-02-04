@@ -14,9 +14,19 @@ A simple PHP script to port your feeds into Tumblr, with the
 ability to create filters for custom feed items (by source).
 
 
+Written by Greg Leuch <http://www.halvfet.com>.
+
 ##################################################################
 
-Written by Greg Leuch <http://www.halvfet.com>.
+
+UPCOMING FEATURES/FIXES
+
+  - Adding RSS support
+  - Adding in more Tumblr post types
+  - Adding in filtering by element's attribute values
+
+
+##################################################################
 
 
 INSTALLATION
