@@ -1,0 +1,10 @@
+<?php
+
+/* Config your Tumblr user account information here. */
+
+$tumblr_user = array(
+  "user" => "user",
+  "pass" => "pass"
+);
+
+?>  
