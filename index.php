@@ -1,8 +1,27 @@
-<?php
+<?php /*
+
+ _                   _     _              
+| |_ _   _ _ __ ___ | |__ | |_ __ ___ ___ 
+| __| | | | '_ ` _ \| '_ \| | '__/ __/ __|
+| |_| |_| | | | | | | |_) | | |  \__ \__ \
+ \__|\__,_|_| |_| |_|_.__/|_|_|  |___/___/
+                                          
+
+##################################################################
+
+Feed feeds into Tumblr.
+
+A simple PHP script to port your feeds into Tumblr, with the 
+ability to create filters for custom feed items (by source).
+
+Written by Greg Leuch <http://www.halvfet.com>.
+
+*/
+
 
 $tumblrss = new Tumblrss();
 
-/* Tumblr user information */
+/* Tumblr user & feed information */
 include_once('./config.inc.php');
 
 $tumblrss->Run();
@@ -50,7 +69,7 @@ class Tumblrss {
           $tags = $entry->getElementsByTagName('category');
           foreach ($tags as $tag) $posts[$i]['tags'] .= (!empty($posts[$i]['tags']) ? ',' : '') . dash($tag->getAttribute('term'));
         } else {
-          // Do RSS
+          // TODO : Create parser for stanard blog RSS format.
         }
       }
     }
@@ -60,6 +79,7 @@ class Tumblrss {
 
   function Check($date) {
     $date = strtotime($date);
+    // For testing/debugging purposes
     // unlink('./'. $this->cache .'/sites/'. underscore($this->feed_title));
     if (!is_file('./'. $this->cache .'/sites/'. underscore($this->feed_title))) touch('./'. $this->cache .'/sites/'. underscore($this->feed_title));
     $last_mod = file_get_contents('./'. $this->cache .'/sites/'. underscore($this->feed_title));
@@ -79,7 +99,10 @@ class Tumblrss {
   function Filter($post, $filter) {
     $content = ((!empty($post['content'])) ? $post['content'] : ((!empty($post['summary'])) ? $post['summary'] : false));
     if (!$content) return false;
-    if ($filter['type'] == 'photo') {
+
+    if ($filter['type'] == 'regular') {
+      // TODO : Add post type for regular.
+    } elseif ($filter['type'] == 'photo') {
       $link = ((isset($filter['link'])) ? $this->FilterMatch($content, $filter['link']) : $post['link']);
       $query = array(
         'type' => 'photo',
@@ -87,6 +110,19 @@ class Tumblrss {
         'caption' => '<p>via <a href="'. $link .'">'. $post['source'] .'</a></p>',
         'click-through-url' => $link
       );      
+    } elseif ($filter['type'] == 'quote') {
+      // TODO : Add post type for quote.
+    } elseif ($filter['type'] == 'link') {
+      // TODO : Add post type for link.
+    } elseif ($filter['type'] == 'conversation') {
+      // TODO : Add post type for conversation.
+    } elseif ($filter['type'] == 'video') {
+      // TODO : Add post type for video.
+    } elseif ($filter['type'] == 'audio') {
+      // Not supported since requires a file upload. 
+      // (Read: not typical for a standard content RSS feeds.)
+      echo "<h3 style=\"color:#cc0000;\">WARNING: Tumblrss does not support the 'audio' post type.</h3>"
+      $query = false.
     }
     return $query;
   }
@@ -99,7 +135,6 @@ class Tumblrss {
     $html->loadHTML($content);
 
     foreach ($filters as $f) {
-      //list($tag, $attr, $num) = 
       $search = '/^([A-Z0-9]*)(\[[A-Z0-9\_\-]*\])?(\([0-9]*\))$/im';
       list($tag, $attr, $num) = explode(",", preg_replace($search, '\1,\2,\3,', $f));
       $attr = str_replace(array("[", "]"), "", $attr);
@@ -144,8 +179,6 @@ class Tumblrss {
       if (isset($this->tumblr['group'])) $query['group'] = $this->tumblr['group'];
 
       $request_data = http_build_query($query);
-
-      // Send the POST request (with cURL)
       $c = curl_init('http://www.tumblr.com/api/write');
       curl_setopt($c, CURLOPT_POST, true);
       curl_setopt($c, CURLOPT_POSTFIELDS, $request_data);
@@ -154,7 +187,6 @@ class Tumblrss {
       $status = curl_getinfo($c, CURLINFO_HTTP_CODE);
       curl_close($c);
 
-      // Check for success
       if ($status == 201) {
         echo "<p>Success! The new post ID is $result.</p>";
       } else if ($status == 403) {
@@ -166,6 +198,7 @@ class Tumblrss {
   }
 };
 
+/* Miscellaneous string functions */
 function dash($str) {return str_replace(' ', '-', strtolower($str));}
 function underscore($str) {return str_replace(array(' ', '-'), '_', strtolower($str));}
 

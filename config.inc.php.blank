@@ -1,19 +1,38 @@
-<?php
+<?php /*
 
-/* Config your Tumblr user account information here. */
+ _                   _     _              
+| |_ _   _ _ __ ___ | |__ | |_ __ ___ ___ 
+| __| | | | '_ ` _ \| '_ \| | '__/ __/ __|
+| |_| |_| | | | | | | |_) | | |  \__ \__ \
+ \__|\__,_|_| |_| |_|_.__/|_|_|  |___/___/
+                                          
 
+##################################################################
+
+Config your Tumblr user account information here.
+
+For more information on adding feeds and using filters, please
+look over the README file.
+
+*/
+
+
+/* Tumblr Account Information */
 $tumblrss->tumblr = array(
   "user" => "user",
   "pass" => "pass",
   //"group" => "group ID
 );
 
+
+/* Feeds to post into Tumblr */
 $tumblrss->sites = array(
   'Google Shared' => array(
     'url' => 'http://news.google.com/?output=rss',
     'tags' => 'google, starred',
     'type' => 'atom',
     'filters' => array(
+      /* Specific filters for pulling content from a specific source. */
       'ffffound.com' => array(
         'type' => 'photo',
         'photo' => 'p(0),a(0),img[src](0)',
