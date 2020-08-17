@@ -1,11 +1,11 @@
+```
  _                   _     _              
 | |_ _   _ _ __ ___ | |__ | |_ __ ___ ___ 
 | __| | | | '_ ` _ \| '_ \| | '__/ __/ __|
 | |_| |_| | | | | | | |_) | | |  \__ \__ \
  \__|\__,_|_| |_| |_|_.__/|_|_|  |___/___/
-                                          
+```                                          
 
-##################################################################
 
 Feed feeds into Tumblr.
 
@@ -16,20 +16,20 @@ ability to create filters for custom feed items (by source).
 
 Written by Greg Leuch <http://www.halvfet.com>.
 
-##################################################################
+--
 
 
-UPCOMING FEATURES/FIXES
+## UPCOMING FEATURES/FIXES
 
   - Adding RSS support
   - Adding in more Tumblr post types
   - Adding in filtering by element's attribute values
 
 
-##################################################################
+--
 
 
-INSTALLATION
+## INSTALLATION
 
 1. Download script.
 2. Rename config.inc.php.blank to config.inc.php.
@@ -38,10 +38,10 @@ INSTALLATION
 5. Create a CRON job to execute script, and vola!
 
 
-##################################################################
+--
 
 
-CUSTOMIZATION
+## CUSTOMIZATION
 
 Currently, tumblrss supports filtering for photos. Specify the key
 of the filter as the domain name (i.e. google.com), enter in the
@@ -54,20 +54,20 @@ only be specified as the last child element. If no attribute is
 specified, it will return the contents of the child element.
 
 For instance, the photo source in this code:
-
+```
 <p>
  <a href="http://www.google.com">
   <img src="http://www.google.com/favicon.png" />
  </a>
 </p>
-
+```
 would be found by:
-
+```
 p(0),a(0),img[src](0)
+```
 
 
-
-##################################################################
+--
 
 Tumblrss makes use of the Tumblr API <http://www.tumblr.com/api>.
 
